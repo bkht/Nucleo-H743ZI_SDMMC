@@ -1,0 +1,109 @@
+# By default with the given .gitignore it will track source, header, and assembly files. 
+# .gitignore
+# Directories #
+###############
+Debug/
+
+# Compiled source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+*.su
+*.a
+*.out
+*.bin
+*.hzp
+*.elf
+*.hex
+*.list
+*.map
+# *.ld
+
+# Packages #
+############
+# it's better to unpack these files and commit the raw source
+# git has its own built in compression methods
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
+
+# OS generated files #
+######################
+.DS_Store*
+ehthumbs.db
+Icon?
+Thumbs.db
+.swp
+*.plist
+
+# Xcode generated files
+build
+*.xcodeproj
+db.*
+*/DerivedData/
+# IDE Specific Files
+*.uvopt
+*.uvproj
+*.uvmpw
+*.uvoptx
+*.uvprojx
+*.ewp
+*.eww
+*.ewd
+*.sln
+*.vcxproj
+*.slsproj
+# *.cproject
+# *.project
+# *.mxproject
+
+# Misc. #
+#########
+*.py
+*.sdf
+*.html
+*.md5
+*.png
+*.pro
+*.qrc
+*.js
+*.pbi
+*.pbd
+*.xbm
+*.crun
+*.dbgdt
+*.bat
+*.dep
+*.dni
+*.wsdt
+*.wspos
+*.attollic
+*.inf
+*.cat
+*.ui
+*Makefile
+*Makefile.*
+*com.*
+*.ini
+*.gif
+*.cout
+*.browse
+*.ewt
+*.sim
+*.xml
+*.sys
