@@ -36,19 +36,28 @@ extern SD_HandleTypeDef hsd1;
 uint8_t BSP_SD_Init(void)
 {
   uint8_t sd_state = MSD_OK;
+
+//  dmc_puts("BSP_SD_Init\n");
+
   /* Check if the SD card is plugged in the slot */
   if (BSP_SD_IsDetected() != SD_PRESENT)
   {
+//    dmc_puts("MSD_ERROR_SD_NOT_PRESENT\n");
     return MSD_ERROR_SD_NOT_PRESENT;
   }
   /* HAL SD initialization */
+//  dmc_puts("HAL_SD_Init\n");
   sd_state = HAL_SD_Init(&hsd1);
   /* Configure SD Bus width (4 bits mode selected) */
   if (sd_state == MSD_OK)
   {
+//    dmc_puts("MSD_OK\n");
+
     /* Enable wide operation */
+//    dmc_puts("HAL_SD_ConfigWideBusOperation\n");
     if (HAL_SD_ConfigWideBusOperation(&hsd1, SDMMC_BUS_WIDE_4B) != HAL_OK)
     {
+//      dmc_puts("MSD_ERROR\n");
       sd_state = MSD_ERROR;
     }
   }
@@ -108,9 +117,16 @@ uint8_t BSP_SD_WriteBlocks(uint32_t *pData, uint32_t WriteAddr, uint32_t NumOfBl
 {
   uint8_t sd_state = MSD_OK;
 
+//  dmc_puts("HAL_SD_WriteBlocks\n");
+
   if (HAL_SD_WriteBlocks(&hsd1, (uint8_t *)pData, WriteAddr, NumOfBlocks, Timeout) != HAL_OK) 
   {
+//    dmc_puts("Error\n");
     sd_state = MSD_ERROR;
+  }
+  else
+  {
+//    dmc_puts("OK\n");
   }
 
   return sd_state;  
@@ -281,10 +297,10 @@ uint8_t BSP_SD_IsDetected(void)
 {
   __IO uint8_t status = SD_PRESENT;
 
-  if (BSP_PlatformIsDetected() == 0x0) 
-  {
-    status = SD_NOT_PRESENT;
-  }
+//  if (BSP_PlatformIsDetected() == 0x0)
+//  {
+//    status = SD_NOT_PRESENT;
+//  }
 
   return status;
 }

@@ -204,6 +204,30 @@ void dmc_putint8cr(int value, char c)
 	dmc_putscr(myStr);
 }
 
+void dmc_putintn(int value, char c, uint8_t n)
+{
+  char myStr[30];
+  dmc_itoa(value, myStr, 10);
+  uint8_t len = strlen(myStr);
+  for (; len < n; len++)
+  {
+    __io_putchar(c);
+  }
+  dmc_puts(myStr);
+}
+
+void dmc_putintncr(int value, char c, uint8_t n)
+{
+  char myStr[30];
+  dmc_itoa(value, myStr, 10);
+  uint8_t len = strlen(myStr);
+  for (; len < n; len++)
+  {
+    __io_putchar(c);
+  }
+  dmc_putscr(myStr);
+}
+
 void dmc_putintstr(int value, char* str)
 {
 	char myStr[30];

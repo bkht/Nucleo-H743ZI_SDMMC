@@ -57,6 +57,7 @@
 									<listOptionValue builtIn="false" value="../../../Middlewares/Third_Party/LwIP/system/arch"/>
 									<listOptionValue builtIn="false" value="../../../Drivers/CMSIS/Include"/>
 									<listOptionValue builtIn="false" value="../../../DMC/Inc"/>
+									<listOptionValue builtIn="false" value="../../../unity"/>
 								</option>
 								<option id="com.atollic.truestudio.gcc.symbols.defined.1670122205" name="Defined symbols" superClass="com.atollic.truestudio.gcc.symbols.defined" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="__weak=__attribute__((weak))"/>

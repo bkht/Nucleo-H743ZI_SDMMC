@@ -108,6 +108,8 @@ DSTATUS SD_initialize(BYTE lun)
   Stat = STA_NOINIT;
 #if !defined(DISABLE_SD_INIT)
 
+//  dmc_puts("SD_initialize\n");
+
   if(BSP_SD_Init() == MSD_OK)
   {
     Stat = SD_CheckStatus(lun);
@@ -144,6 +146,8 @@ DRESULT SD_read(BYTE lun, BYTE *buff, DWORD sector, UINT count)
 {
   DRESULT res = RES_ERROR;
 
+//  dmc_puts("SD_read\n");
+
   if(BSP_SD_ReadBlocks((uint32_t*)buff,
                        (uint32_t) (sector),
                        count, SD_TIMEOUT) == MSD_OK)
@@ -174,16 +178,24 @@ DRESULT SD_write(BYTE lun, const BYTE *buff, DWORD sector, UINT count)
 {
   DRESULT res = RES_ERROR;
 
+//  dmc_puts("BSP_SD_WriteBlocks\n");
+
   if(BSP_SD_WriteBlocks((uint32_t*)buff,
                         (uint32_t)(sector),
                         count, SD_TIMEOUT) == MSD_OK)
   {
+//    dmc_puts("wait\n");
 	/* wait until the Write operation is finished */
     while(BSP_SD_GetCardState() != MSD_OK)
     {
     }
     res = RES_OK;
   }
+  else
+  {
+//    dmc_puts("error\n");
+  }
+//  dmc_puts("done\n");
 
   return res;
 }

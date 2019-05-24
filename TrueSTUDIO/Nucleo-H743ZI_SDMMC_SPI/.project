@@ -187,6 +187,11 @@
 			<locationURI>PARENT-2-PROJECT_LOC/Src/sdmmc.c</locationURI>
 		</link>
 		<link>
+			<name>Application/User/sdmmc_test.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/Src/sdmmc_test.c</locationURI>
+		</link>
+		<link>
 			<name>Application/User/spi.c</name>
 			<type>1</type>
 			<locationURI>PARENT-2-PROJECT_LOC/Src/spi.c</locationURI>
@@ -200,6 +205,11 @@
 			<name>Application/User/stm32h7xx_it.c</name>
 			<type>1</type>
 			<locationURI>PARENT-2-PROJECT_LOC/Src/stm32h7xx_it.c</locationURI>
+		</link>
+		<link>
+			<name>Application/User/unity</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
 			<name>Application/User/usart.c</name>
@@ -805,6 +815,11 @@
 			<name>Application/User/DMC/sdcard.c</name>
 			<type>1</type>
 			<locationURI>PARENT-2-PROJECT_LOC/DMC/Src/sdcard.c</locationURI>
+		</link>
+		<link>
+			<name>Application/User/unity/unity.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/unity/unity.c</locationURI>
 		</link>
 		<link>
 			<name>Drivers/BSP/Components/lan8742.c</name>

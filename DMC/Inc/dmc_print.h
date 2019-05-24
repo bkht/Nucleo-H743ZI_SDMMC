@@ -25,6 +25,8 @@ void dmc_putint6(int value, char c);
 void dmc_putint6cr(int value, char c);
 void dmc_putint8(int value, char c);
 void dmc_putint8cr(int value, char c);
+void dmc_putintn(int value, char c, uint8_t n);
+void dmc_putintncr(int value, char c, uint8_t n);
 void dmc_putintstr(int value, char* str);
 void dmc_putintstrcr(int value, char* str);
 void dmc_putstrint(char* str, int value);

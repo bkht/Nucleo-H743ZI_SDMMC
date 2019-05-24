@@ -762,21 +762,27 @@ HAL_StatusTypeDef HAL_SD_WriteBlocks(SD_HandleTypeDef *hsd, uint8_t *pData, uint
   uint32_t add = BlockAdd;
   uint8_t *tempbuff = pData;
 
+//  dmc_puts("HAL_SD_WriteBlocks\n");
+
   if(NULL == pData)
   {
     hsd->ErrorCode |= HAL_SD_ERROR_PARAM;
     return HAL_ERROR;
   }
+//  dmc_puts("aa\n");
 
   if(hsd->State == HAL_SD_STATE_READY)
   {
     hsd->ErrorCode = HAL_SD_ERROR_NONE;
+
+//    dmc_puts("bb\n");
 
     if((add + NumberOfBlocks) > (hsd->SdCard.LogBlockNbr))
     {
       hsd->ErrorCode |= HAL_SD_ERROR_ADDR_OUT_OF_RANGE;
       return HAL_ERROR;
     }
+//    dmc_puts("cc\n");
 
     hsd->State = HAL_SD_STATE_BUSY;
 
@@ -798,6 +804,7 @@ HAL_StatusTypeDef HAL_SD_WriteBlocks(SD_HandleTypeDef *hsd, uint8_t *pData, uint
       hsd->State = HAL_SD_STATE_READY;
       return HAL_ERROR;
     }
+//    dmc_puts("dd\n");
 
     /* Configure the SD DPSM (Data Path State Machine) */
     config.DataTimeOut   = SDMMC_DATATIMEOUT;
@@ -808,6 +815,7 @@ HAL_StatusTypeDef HAL_SD_WriteBlocks(SD_HandleTypeDef *hsd, uint8_t *pData, uint
     config.DPSM          = SDMMC_DPSM_DISABLE;
     (void)SDMMC_ConfigData(hsd->Instance, &config);
     __SDMMC_CMDTRANS_ENABLE( hsd->Instance);
+//    dmc_puts("ee\n");
 
     /* Write Blocks in Polling mode */
     if(NumberOfBlocks > 1U)
@@ -832,15 +840,21 @@ HAL_StatusTypeDef HAL_SD_WriteBlocks(SD_HandleTypeDef *hsd, uint8_t *pData, uint
       hsd->State = HAL_SD_STATE_READY;
       return HAL_ERROR;
     }
+//    dmc_puts("ff\n");
 
     /* Write block(s) in polling mode */
     while(!__HAL_SD_GET_FLAG(hsd, SDMMC_FLAG_TXUNDERR | SDMMC_FLAG_DCRCFAIL | SDMMC_FLAG_DTIMEOUT | SDMMC_FLAG_DATAEND))
     {
+//      dmc_puts(".");
       if(__HAL_SD_GET_FLAG(hsd, SDMMC_FLAG_TXFIFOHE))
       {
         /* Write data to SDMMC Tx FIFO */
         for(count = 0U; count < 8U; count++)
         {
+//          for (uint16_t i = 0; i < 5; i++)
+//          {
+//            __NOP();
+//          }
           data = (uint32_t)(*tempbuff);
           tempbuff++;
           data |= ((uint32_t)(*tempbuff) << 8U);
@@ -863,6 +877,7 @@ HAL_StatusTypeDef HAL_SD_WriteBlocks(SD_HandleTypeDef *hsd, uint8_t *pData, uint
       }
     }
     __SDMMC_CMDTRANS_DISABLE( hsd->Instance);
+//    dmc_puts("gg\n");
 
     /* Send stop transmission command in case of multiblock write */
     if(__HAL_SD_GET_FLAG(hsd, SDMMC_FLAG_DATAEND) && (NumberOfBlocks > 1U))
@@ -881,6 +896,7 @@ HAL_StatusTypeDef HAL_SD_WriteBlocks(SD_HandleTypeDef *hsd, uint8_t *pData, uint
         }
       }
     }
+//    dmc_puts("hh\n");
 
     /* Get error state */
     if(__HAL_SD_GET_FLAG(hsd, SDMMC_FLAG_DTIMEOUT))
@@ -911,6 +927,7 @@ HAL_StatusTypeDef HAL_SD_WriteBlocks(SD_HandleTypeDef *hsd, uint8_t *pData, uint
     {
       /* Nothing to do */
     }
+//    dmc_puts("ii\n");
 
     /* Clear all the static flags */
     __HAL_SD_CLEAR_FLAG(hsd, SDMMC_STATIC_DATA_FLAGS);

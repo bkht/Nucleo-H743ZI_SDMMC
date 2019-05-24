@@ -10,41 +10,78 @@ FRESULT scan_files(char* path, uint8_t printLegend)
 
 	if (printLegend)
 	{
-		printf("Directory: %s\n", path);
-		//      -a---   00-00-1980 00:00           15   hello.txt
-		printf("Attr.   Last modified      Size         Name\n");
-		printf("-----   ----------------   ----------   ----------------\n");
+    dmc_puts("Directory: ");
+    dmc_putscr(path);
+    dmc_puts("Attr.   Last modified      Size         Name\n");
+    dmc_puts("-----   ----------------   ----------   ----------------\n");
+    //        -a---   00-00-1980 00:00           15   hello.txt
 	}
-	res = f_opendir(&dir, path); /* Open the directory */
+
+	/* Open the directory */
+	res = f_opendir(&dir, path);
 	if (res == FR_OK)
 	{
 		for (;;)
 		{
-			res = f_readdir(&dir, &fno); /* Read a directory item */
+		  /* Read a directory item */
+			res = f_readdir(&dir, &fno);
 			if (res != FR_OK || fno.fname[0] == 0)
+			{
 				break; /* Break on error or end of dir */
+			}
 			if (fno.fattrib & AM_DIR)
-			{ /* It is a directory */
-//                i = strlen(path);
-//                sprintf(&path[i], "/%s", fno.fname);
-//                res = scan_files(path);                    /* Enter the directory */
-//                if (res != FR_OK) break;
-				printf("%c%c%c%c%c   ", (fno.fattrib & AM_DIR) ? 'd' : '-',
-						(fno.fattrib & AM_ARC) ? 'a' : '-',
-						(fno.fattrib & AM_RDO) ? 'r' : '-',
-						(fno.fattrib & AM_HID) ? 'h' : '-',
-						(fno.fattrib & AM_SYS) ? 's' : '-');
-				printf("%02u-%02u-%u %02u:%02u   ", fno.fdate & 31,
-						(fno.fdate >> 5) & 15, (fno.fdate >> 9) + 1980,
-						fno.ftime >> 11, (fno.ftime >> 5) & 63);
+			{
+			  /* It is a directory */
+//			  i = strlen(path);
+//			  sprintf(&path[i], "/%s", fno.fname);
+//			  res = scan_files(path);                    /* Enter the directory */
+//			  if (res != FR_OK)
+//			  {
+//			    break;
+//			  }
+//				printf("%c%c%c%c%c   ",
+//				    (fno.fattrib & AM_DIR) ? 'd' : '-',
+//						(fno.fattrib & AM_ARC) ? 'a' : '-',
+//						(fno.fattrib & AM_RDO) ? 'r' : '-',
+//						(fno.fattrib & AM_HID) ? 'h' : '-',
+//						(fno.fattrib & AM_SYS) ? 's' : '-');
+        dmc_putc((fno.fattrib & AM_DIR) ? 'd' : '-');
+        dmc_putc((fno.fattrib & AM_ARC) ? 'a' : '-');
+        dmc_putc((fno.fattrib & AM_RDO) ? 'r' : '-');
+        dmc_putc((fno.fattrib & AM_HID) ? 'h' : '-');
+        dmc_putc((fno.fattrib & AM_SYS) ? 's' : '-');
+        dmc_puts("   ");
+//				printf("%02u-%02u-%u %02u:%02u   ", fno.fdate & 31,
+//						(fno.fdate >> 5) & 15, (fno.fdate >> 9) + 1980,
+//						fno.ftime >> 11, (fno.ftime >> 5) & 63);
+        dmc_putint2(fno.fdate & 31, '0');
+        dmc_putc('-');
+        dmc_putint2((fno.fdate >> 5) & 15, '0');
+        dmc_putc('-');
+        dmc_putint4((fno.fdate >> 9) + 1980, '0');
+        dmc_putc(' ');
+        dmc_putint2(fno.ftime >> 11, '0');
+        dmc_putc(':');
+        dmc_putint2((fno.ftime >> 5) & 63, '0');
+        dmc_puts("   ");
+
 //                if (strlen(path > 2))
 //                {
 //                	printf("%10lu   %s/%s\n", fno.fsize, path, fno.fname);
 //                }
 //                else
 //                {
-				printf("             %s\n", fno.fname);
-//                }
+//				printf("             %s\n", fno.fname);
+        dmc_puts("             ");
+        if (strlen(path) > 3)
+        {
+          dmc_puts(path);
+          dmc_putc('/');
+        }
+        dmc_puts(fno.fname);
+        dmc_putcr();
+
+//                 }
 //        		printf("%s\n", path);
 //                path[i] = 0;
 				scan_files(fno.fname, 0);
@@ -52,22 +89,50 @@ FRESULT scan_files(char* path, uint8_t printLegend)
 			else
 			{
 				/* It is a file. */
-				printf("%c%c%c%c%c   ", (fno.fattrib & AM_DIR) ? 'd' : '-',
-						(fno.fattrib & AM_ARC) ? 'a' : '-',
-						(fno.fattrib & AM_RDO) ? 'r' : '-',
-						(fno.fattrib & AM_HID) ? 'h' : '-',
-						(fno.fattrib & AM_SYS) ? 's' : '-');
-				printf("%02u-%02u-%u %02u:%02u   ", fno.fdate & 31,
-						(fno.fdate >> 5) & 15, (fno.fdate >> 9) + 1980,
-						fno.ftime >> 11, (fno.ftime >> 5) & 63);
-				if (strlen(path) <= 1)
+//				printf("%c%c%c%c%c   ",
+//				    (fno.fattrib & AM_DIR) ? 'd' : '-',
+//						(fno.fattrib & AM_ARC) ? 'a' : '-',
+//						(fno.fattrib & AM_RDO) ? 'r' : '-',
+//						(fno.fattrib & AM_HID) ? 'h' : '-',
+//						(fno.fattrib & AM_SYS) ? 's' : '-');
+        dmc_putc((fno.fattrib & AM_DIR) ? 'd' : '-');
+        dmc_putc((fno.fattrib & AM_ARC) ? 'a' : '-');
+        dmc_putc((fno.fattrib & AM_RDO) ? 'r' : '-');
+        dmc_putc((fno.fattrib & AM_HID) ? 'h' : '-');
+        dmc_putc((fno.fattrib & AM_SYS) ? 's' : '-');
+        dmc_puts("   ");
+
+//				printf("%02u-%02u-%u %02u:%02u   ", fno.fdate & 31,
+//						(fno.fdate >> 5) & 15, (fno.fdate >> 9) + 1980,
+//						fno.ftime >> 11, (fno.ftime >> 5) & 63);
+        dmc_putint2(fno.fdate & 31, '0');
+        dmc_putc('-');
+        dmc_putint2((fno.fdate >> 5) & 15, '0');
+        dmc_putc('-');
+        dmc_putint4((fno.fdate >> 9) + 1980, '0');
+        dmc_putc(' ');
+        dmc_putint2(fno.ftime >> 11, '0');
+        dmc_putc(':');
+        dmc_putint2((fno.ftime >> 5) & 63, '0');
+        dmc_puts("   ");
+
+        //        if (strlen(path) <= 1)
+        //        {
+        //          printf("%10llu   %s\n", fno.fsize, fno.fname);
+        //        }
+        //        else
+        //        {
+        //          printf("%10llu   %s/%s\n", fno.fsize, path, fno.fname);
+        //        }
+        dmc_putintn(fno.fsize, ' ', 10);
+        dmc_puts("   ");
+        if (strlen(path) > 3)
 				{
-					printf("%10llu   %s\n", fno.fsize, fno.fname);
+	        dmc_puts(path);
+	        dmc_putc('/');
 				}
-				else
-				{
-					printf("%10llu   %s/%s\n", fno.fsize, path, fno.fname);
-				}
+        dmc_puts(fno.fname);
+        dmc_putcr();
 			}
 		}
 		f_closedir(&dir);

@@ -20,6 +20,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include <dmc_fat.h>
+#include <dmc_print.h>
 #include "main.h"
 #include "dma.h"
 #include "fatfs.h"
@@ -78,7 +79,7 @@ void MPU_Config(void);
   * @retval int
   */
 int main(void)
- {
+{
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
@@ -137,12 +138,15 @@ int main(void)
   GetMcuRevision();
 
 
+
+//  run_sdmmc_test();
+
   dmc_puts("MX_SDMMC1_SD_Init\n");
   MX_SDMMC1_SD_Init();
   dmc_puts("MX_FATFS_Init\n");
   MX_FATFS_Init();
 
-  MX_LWIP_Init();
+//  MX_LWIP_Init();
   /* USER CODE BEGIN 2 */
 
   dmc_put_sethuart(&huart3);
@@ -162,6 +166,19 @@ int main(void)
   DSTATUS status;
   BYTE work[1024]; /* Work area (larger is better for processing time) */
 
+
+  /* Disk initialization */
+  dmc_puts("Initialize disk: ");
+  status = disk_initialize(0);
+  if (status != RES_OK)
+  {
+    ShowDiskStatus(status);
+  }
+  else
+  {
+    dmc_puts("OK\n");
+  }
+
   /* Disk status */
   dmc_puts("Disk status: ");
   status = disk_status(0);
@@ -174,86 +191,90 @@ int main(void)
     dmc_puts("OK\n");
   }
 
-  dmc_puts("Initialize disk: ");
-  status = disk_initialize(0);
-  if (status != RES_OK)
-  {
-    ShowDiskStatus(status);
-  }
-  else
-  {
-    dmc_puts("OK\n");
-  }
 
 
 
 
-
-//    uint8_t pWData[512];
-//    uint8_t pRData[512];
-//    uint16_t BlockSize = 512;
-//    uint32_t BlockNbr = 62688;
-//    uint32_t ReadAddr = 0;
-//    uint32_t WriteAddr = 0;
-//    uint32_t NumOfBlocks = 1;
-//    uint32_t Timeout = 1000;
-//    uint8_t SD_status = 0;
+//  uint8_t pWData[512];
+//  uint8_t pRData[512];
+//  uint16_t BlockSize = 512;
+//  uint32_t BlockNbr = 2;
+//  uint32_t ReadAddr = 0;
+//  uint32_t WriteAddr = 0;
+//  uint32_t NumOfBlocks = 1;
+//  uint32_t Timeout = 1000;
+//  uint8_t SD_status = 0;
 //
-//    for (uint32_t j = 0; j < BlockNbr; j += 256)
+//  for (uint32_t j = 0; j < BlockNbr; j += 1)
+//  {
+//    WriteAddr = j;
+//    ReadAddr = j;
+//
+//
+//    for (uint16_t i = 0; i < BlockSize; i++)
 //    {
-//      WriteAddr = j;
-//      ReadAddr = j;
+//      pRData[i] = (i & 0xff);
+//    }
 //
-//      dmc_puthex8(ReadAddr);
-//      dmc_putc(' ');
+//    //    disk_write(
+//    //      0,    /* Physical drive nmuber to identify the drive */
+//    //      pWData, /* Data to be written */
+//    //      WriteAddr,   /* Sector address in LBA */
+//    //      NumOfBlocks          /* Number of sectors to write */
+//    //    );
 //
-//      for (uint16_t i = 0; i < BlockSize; i++)
-//      {
-//        pRData[i] = (i & 0xff);
-//      }
+//    //    dmc_puts("BSP_SD_WriteBlocks: ");
+//    //    SD_status = BSP_SD_WriteBlocks((uint32_t *)pWData, WriteAddr, NumOfBlocks, Timeout);
+//    //    dmc_puts("WR SD_status: ");
+//    //    dmc_putint(SD_status);
+//    //    dmc_putc(' ');
 //
-//  //    disk_write(
-//  //      0,    /* Physical drive nmuber to identify the drive */
-//  //      pWData, /* Data to be written */
-//  //      WriteAddr,   /* Sector address in LBA */
-//  //      NumOfBlocks          /* Number of sectors to write */
-//  //    );
-//
-//  //    dmc_puts("BSP_SD_WriteBlocks: ");
-//  //    SD_status = BSP_SD_WriteBlocks((uint32_t *)pWData, WriteAddr, NumOfBlocks, Timeout);
-//  //    dmc_puts("WR SD_status: ");
-//  //    dmc_putint(SD_status);
-//  //    dmc_putc(' ');
-//
-//      disk_read(
+//    disk_read(
 //        0,    /* Physical drive number to identify the drive */
 //        pRData,   /* Data buffer to store read data */
 //        ReadAddr,         /* Sector address in LBA */
 //        NumOfBlocks    /* Number of sectors to read */
-//      );
+//    );
 //
-//  //    dmc_puts("BSP_SD_ReadBlocks: ");
-//  //    SD_status = BSP_SD_ReadBlocks((uint32_t *)pRData, ReadAddr, NumOfBlocks, Timeout);
-//  //    dmc_puts("RD SD_status: ");
-//  //    dmc_putint(SD_status);
-//  //    dmc_putc(' ');
+//    //    dmc_puts("BSP_SD_ReadBlocks: ");
+//    //    SD_status = BSP_SD_ReadBlocks((uint32_t *)pRData, ReadAddr, NumOfBlocks, Timeout);
+//    //    dmc_puts("RD SD_status: ");
+//    //    dmc_putint(SD_status);
+//    //    dmc_putc(' ');
 //
-//  //    uint8_t match = 1;
-//  //    if (memcmp(pWData, pRData, BlockSize))
-//  //    {
-//  //      match = 0;
-//  //    }
-//  //    dmc_puts("match: ");
-//  //    dmc_putint(match);
-//  //    dmc_putc(' ');
+//    //    uint8_t match = 1;
+//    //    if (memcmp(pWData, pRData, BlockSize))
+//    //    {
+//    //      match = 0;
+//    //    }
+//    //    dmc_puts("match: ");
+//    //    dmc_putint(match);
+//    //    dmc_putc(' ');
 //
-//      for (uint16_t i = 0; i < BlockSize; i+=32)
-//      {
-//        dmc_puthex2(pRData[i]);
-//        dmc_putc(' ');
-//      }
-//      dmc_putcr();
-//    }
+////    for (uint16_t k = 0; k < BlockSize; k += 16)
+////    {
+////      dmc_puthex8(k + j * BlockSize);
+////      dmc_puts("  ");
+////      for (uint16_t i = 0; i < 16; i++)
+////      {
+////        dmc_puthex2(pRData[i + k]);
+////        dmc_putc(' ');
+////      }
+////      dmc_putc(' ');
+////      for (uint16_t i = 0; i < 16; i++)
+////      {
+////        if ((pRData[i + k] >= ' ') && (pRData[i + k] <= 127))
+////        {
+////          dmc_putc(pRData[i + k]);
+////        }
+////        else
+////        {
+////          dmc_putc('.');
+////        }
+////      }
+////      dmc_putcr();
+////    }
+//  }
 
   //  /* Format Disk */
   //  /* Create FAT volume */
@@ -317,7 +338,7 @@ int main(void)
   printf("%10lu kB available\n", fre_sect / 2);     //   15386688 kB available
   printf(TERMINAL_DEFAULT);
 
-//  scan_files(SDPath, 1);
+  scan_files(SDPath, 1);
 
 
   char *bufptr;
@@ -325,8 +346,33 @@ int main(void)
   char filename[64];
   char pathname[64];
   char rstring[1024];
+
+  /* Read file */
+  strcpy(filename, "Info.txt");
+  printf("Read file %s\n", filename);
+  res = f_open(&fil, filename, FA_READ);
+  if (res != FR_OK)
+  {
+    ShowFatFsError(res);
+  }
+  printf(TERMINAL_LIGHT_YELLOW);
+  while (!f_eof(&fil))
+  {
+//    while (f_tell(&fil)  <  f_size(&fil)) {
+    f_gets(rstring, 64, &fil);
+    printf("%s", rstring);
+  }
+  printf(TERMINAL_DEFAULT);
+  /* Close file */
+    printf("Close file\n");
+  res = f_close(&fil);
+  if (res != FR_OK)
+  {
+    ShowFatFsError(res);
+  }
+
   uint8_t CreateFiles = FALSE;
-//  CreateFiles = TRUE;
+  CreateFiles = TRUE;
   if (CreateFiles)
   {
     /* Create file */
@@ -344,18 +390,22 @@ int main(void)
     char wtext[128];
     snprintf(wtext, 128, "Hello, World!\nTest.\n");
     int length = strlen(wtext);
+    printf("f_write...\n");
     res = f_write(&fil, wtext, length, &wbytes);
     if (res != FR_OK)
     {
       ShowFatFsError(res);
     }
+    printf("done\n");
     /* Close file */
     //  printf("Close file\n");
+    printf("f_close...\n");
     res = f_close(&fil);
     if (res != FR_OK)
     {
       ShowFatFsError(res);
     }
+    printf("done\n");
     //  Set timestamp
     printf("Set file timestamp of %s\n", filename);
 //    RTC_GetRtcDateTime(&DateTime);
@@ -364,6 +414,7 @@ int main(void)
     {
       ShowFatFsError(res);
     }
+    printf("done\n");
 
     /* Append file */
     printf("Append file %s\n", filename);
@@ -489,30 +540,6 @@ int main(void)
 //    ShowFatFsError(res);
 //  }
 
-  /* Read file */
-  strcpy(filename, "Info.txt");
-  printf("Read file %s\n", filename);
-  res = f_open(&fil, filename, FA_READ);
-  if (res != FR_OK)
-  {
-    ShowFatFsError(res);
-  }
-  printf(TERMINAL_LIGHT_YELLOW);
-  while (!f_eof(&fil))
-  {
-//    while (f_tell(&fil)  <  f_size(&fil)) {
-    f_gets(rstring, 64, &fil);
-    printf("%s", rstring);
-  }
-  printf(TERMINAL_DEFAULT);
-  /* Close file */
-    printf("Close file\n");
-  res = f_close(&fil);
-  if (res != FR_OK)
-  {
-    ShowFatFsError(res);
-  }
-
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -531,7 +558,7 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    MX_LWIP_Process();
+//    MX_LWIP_Process();
 
   }
   /* USER CODE END 3 */
@@ -565,7 +592,7 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.PLL.PLLM = 1;
   RCC_OscInitStruct.PLL.PLLN = 100;
   RCC_OscInitStruct.PLL.PLLP = 2;
-  RCC_OscInitStruct.PLL.PLLQ = 64; // 8 = 100MHz SDMMC1
+  RCC_OscInitStruct.PLL.PLLQ = 16; // 8 = 100MHz SDMMC1
   RCC_OscInitStruct.PLL.PLLR = 2;
   RCC_OscInitStruct.PLL.PLLRGE = RCC_PLL1VCIRANGE_3;
   RCC_OscInitStruct.PLL.PLLVCOSEL = RCC_PLL1VCOWIDE;
@@ -644,7 +671,6 @@ void MPU_Config(void)
   HAL_MPU_Disable();
 
   /* Configure the MPU attributes as WT for SRAM1 */
-
   MPU_InitStruct.Enable = MPU_REGION_ENABLE;
   MPU_InitStruct.BaseAddress = 0x24000000;
   MPU_InitStruct.Size = MPU_REGION_SIZE_512KB;
@@ -652,7 +678,7 @@ void MPU_Config(void)
   MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE;
   MPU_InitStruct.IsCacheable = MPU_ACCESS_CACHEABLE;
   MPU_InitStruct.IsShareable = MPU_ACCESS_NOT_SHAREABLE;
-  MPU_InitStruct.Number = MPU_REGION_NUMBER1;
+  MPU_InitStruct.Number = MPU_REGION_NUMBER0; // MPU_REGION_NUMBER1
   MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
   MPU_InitStruct.SubRegionDisable = 0x00;
   MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_ENABLE;
