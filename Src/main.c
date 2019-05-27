@@ -28,7 +28,7 @@
 #include "sdmmc.h"
 #include "spi.h"
 #include "usart.h"
-#include "usb_otg.h"
+#include "usb_device.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -115,7 +115,7 @@ int main(void)
   MX_SPI2_Init();
   MX_SPI4_Init();
   MX_USART3_UART_Init();
-  MX_USB_OTG_FS_PCD_Init();
+
   dmc_puts("\n");
   dmc_puts("--------------------------------------------------------------------------------\n");
   dmc_puts("MCU type            : ");
@@ -139,12 +139,15 @@ int main(void)
 
 
 
+
 //  run_sdmmc_test();
 
   dmc_puts("MX_SDMMC1_SD_Init\n");
   MX_SDMMC1_SD_Init();
   dmc_puts("MX_FATFS_Init\n");
   MX_FATFS_Init();
+
+  MX_USB_DEVICE_Init();
 
 //  MX_LWIP_Init();
   /* USER CODE BEGIN 2 */
@@ -592,7 +595,7 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.PLL.PLLM = 1;
   RCC_OscInitStruct.PLL.PLLN = 100;
   RCC_OscInitStruct.PLL.PLLP = 2;
-  RCC_OscInitStruct.PLL.PLLQ = 16; // 8 = 100MHz SDMMC1
+  RCC_OscInitStruct.PLL.PLLQ = 8; // 8 = 100MHz SDMMC1
   RCC_OscInitStruct.PLL.PLLR = 2;
   RCC_OscInitStruct.PLL.PLLRGE = RCC_PLL1VCIRANGE_3;
   RCC_OscInitStruct.PLL.PLLVCOSEL = RCC_PLL1VCOWIDE;

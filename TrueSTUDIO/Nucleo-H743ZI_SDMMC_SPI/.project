@@ -122,6 +122,11 @@
 			<locationURI>virtual:/virtual</locationURI>
 		</link>
 		<link>
+			<name>Middlewares/USB_Device_Library</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
 			<name>Application/TrueSTUDIO/startup_stm32h743xx.s</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/startup_stm32h743xx.s</locationURI>
@@ -187,11 +192,6 @@
 			<locationURI>PARENT-2-PROJECT_LOC/Src/sdmmc.c</locationURI>
 		</link>
 		<link>
-			<name>Application/User/sdmmc_test.c</name>
-			<type>1</type>
-			<locationURI>PARENT-2-PROJECT_LOC/Src/sdmmc_test.c</locationURI>
-		</link>
-		<link>
 			<name>Application/User/spi.c</name>
 			<type>1</type>
 			<locationURI>PARENT-2-PROJECT_LOC/Src/spi.c</locationURI>
@@ -217,9 +217,24 @@
 			<locationURI>PARENT-2-PROJECT_LOC/Src/usart.c</locationURI>
 		</link>
 		<link>
-			<name>Application/User/usb_otg.c</name>
+			<name>Application/User/usb_device.c</name>
 			<type>1</type>
-			<locationURI>PARENT-2-PROJECT_LOC/Src/usb_otg.c</locationURI>
+			<locationURI>PARENT-2-PROJECT_LOC/Src/usb_device.c</locationURI>
+		</link>
+		<link>
+			<name>Application/User/usbd_conf.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/Src/usbd_conf.c</locationURI>
+		</link>
+		<link>
+			<name>Application/User/usbd_desc.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/Src/usbd_desc.c</locationURI>
+		</link>
+		<link>
+			<name>Application/User/usbd_storage_if.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/Src/usbd_storage_if.c</locationURI>
 		</link>
 		<link>
 			<name>Drivers/BSP/Components</name>
@@ -755,6 +770,41 @@
 			<name>Middlewares/LwIP/vj.c</name>
 			<type>1</type>
 			<locationURI>PARENT-2-PROJECT_LOC/Middlewares/Third_Party/LwIP/src/netif/ppp/vj.c</locationURI>
+		</link>
+		<link>
+			<name>Middlewares/USB_Device_Library/usbd_core.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_core.c</locationURI>
+		</link>
+		<link>
+			<name>Middlewares/USB_Device_Library/usbd_ctlreq.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ctlreq.c</locationURI>
+		</link>
+		<link>
+			<name>Middlewares/USB_Device_Library/usbd_ioreq.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ioreq.c</locationURI>
+		</link>
+		<link>
+			<name>Middlewares/USB_Device_Library/usbd_msc.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/Middlewares/ST/STM32_USB_Device_Library/Class/MSC/Src/usbd_msc.c</locationURI>
+		</link>
+		<link>
+			<name>Middlewares/USB_Device_Library/usbd_msc_bot.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/Middlewares/ST/STM32_USB_Device_Library/Class/MSC/Src/usbd_msc_bot.c</locationURI>
+		</link>
+		<link>
+			<name>Middlewares/USB_Device_Library/usbd_msc_data.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/Middlewares/ST/STM32_USB_Device_Library/Class/MSC/Src/usbd_msc_data.c</locationURI>
+		</link>
+		<link>
+			<name>Middlewares/USB_Device_Library/usbd_msc_scsi.c</name>
+			<type>1</type>
+			<locationURI>PARENT-2-PROJECT_LOC/Middlewares/ST/STM32_USB_Device_Library/Class/MSC/Src/usbd_msc_scsi.c</locationURI>
 		</link>
 		<link>
 			<name>Application/User/DMC/dmc_convert.c</name>
