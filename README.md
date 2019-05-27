@@ -8,7 +8,9 @@ STM32H743ZI (Revision Y)
 
 ## Software:
 STM32CubeMX Version 5.2.0
+
 STM32Cube_FW_H7_V1.4.0
+
 Atollic TrueSTUDIO 9.3.0
 
 Implementation of SD-Card on SDMMC1 for STM32H7 boards using STM32 HAL.
